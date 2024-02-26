@@ -13,14 +13,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderWidth: 2,
     borderColor: 'transparent',
-    shadowColor: "#000",
+    shadowOpacity: 0.08,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 20,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 5,
+    shadowRadius: 10,
   },
   selectedItem: {
     borderColor: 'magenta',
@@ -99,7 +97,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,
-    marginVertical: 20,
+    marginTop: 20,
   },
   modalButton: {
     width: 80,
@@ -108,6 +106,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
+    marginTop: 10,
   },
   modalButtonText: {
     fontSize: 16,
@@ -117,6 +116,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 10,
     borderRadius: 15,
+  },
+  warningText: {
+    maxWidth: 200,
+    color: 'red',
+    fontWeight: '500',
+    marginBottom: 10,
+    textAlign: 'left',
   },
   rightAction: {
     width: 60,

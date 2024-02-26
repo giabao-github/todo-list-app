@@ -9,6 +9,7 @@ const Task = (props) => {
   const [importantTask, setImportantTask] = useState(false);
   const [completedTask, setCompletedTask] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const { number } = props;
   const numberString = number < 10 ? `0${number}` : number;
@@ -20,13 +21,20 @@ const Task = (props) => {
     setImportantTask(!importantTask);
   };
 
-  const handleCompletedTask = () => {
+  const handleCompletedTask = (index) => {
     setCompletedTask(!completedTask);
+    if (!completedTask) 
+      props.completedTasks?.push(index);
+    else
+      props.completedTasks?.splice(index, 1);
+    console.log(`${completedTask}, ${props.completedTasks.length}`);
+    console.log(props.completedTasks.toString());
   };
 
   const handleEdit = () => {
     props.setNewTaskTitle(props.task);
     setIsEditModalVisible(true);
+    props.setIsFormVisible(false);
     if (swipeableRef.current) {
       swipeableRef.current.close();
     }
@@ -34,10 +42,16 @@ const Task = (props) => {
 
   const handleSave = () => {
     props.handleSave(props.index, newTaskTitle);
-    if (!props.isValidInput)
+    if (newTaskTitle.trim().replace(/\s+/g, ' ').length === 0) {
       setIsEditModalVisible(true);
-    else
+      setShowWarning(true); 
+      props.setIsFormVisible(false);
+    }
+    else {
       setIsEditModalVisible(false);
+      setShowWarning(false);
+      props.setIsFormVisible(true);
+    }
   };
 
   const handleDelete = (index) => {
@@ -134,10 +148,14 @@ const Task = (props) => {
               <TextInput
                 style={styles.modalTextInput}
                 selectionColor="black"
-                placeholder='Alter your task...'
-                onChangeText={setNewTaskTitle}
+                placeholder='Edit your task...'
+                onChangeText={(text) => {
+                  setNewTaskTitle(text);
+                  setShowWarning(false);
+                }}
                 value={newTaskTitle}
               />
+              {showWarning && <Text style={styles.warningText}>A task cannot be empty!</Text>}
               <View style={styles.modalButtons}>
                 <TouchableOpacity
                   activeOpacity={0.7}
@@ -149,7 +167,10 @@ const Task = (props) => {
                 <TouchableOpacity 
                   activeOpacity={0.7}
                   style={[styles.modalButton, { marginLeft: 20, backgroundColor: color.delete }]} 
-                  onPress={() => setIsEditModalVisible(false)}
+                  onPress={() => {
+                    setIsEditModalVisible(false);
+                    props.setIsFormVisible(true);
+                  }}
                 >
                   <Text style={styles.modalButtonText}>Cancel</Text>
                 </TouchableOpacity>

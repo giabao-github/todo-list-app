@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome6';
 
 export default function Form(props) {
   const [task, setTask] = useState('');
+
   const handleAddTask = () => {
     if (task.trim().replace(/\s+/g, ' ').length === 0) {
       Alert.alert(
@@ -25,6 +26,28 @@ export default function Form(props) {
     Keyboard.dismiss();
   }
 
+  const handleDeleteCompletedTask = () => {
+    console.log(props.completedTasks.toString());
+    Alert.alert(
+      "Delete completed tasks!!!",
+      "Are you sure to delete all completed tasks? This action cannot be undone!",
+      [
+        {
+          text: "Delete",
+          onPress: () => {
+            for (let index of props.completedTasks) {
+              let taskListTemp = [...props.tasks];
+              
+              taskListTemp.splice(index, 1);
+              props.setTasks(taskListTemp);
+            }
+          },
+        },
+        { text: "Cancel", onPress: () => {} }
+      ]
+    );
+  }
+
   return (
     <KeyboardAvoidingView 
       behavior={Platform.OS === 'ios' ? 'padding': 'height'}
@@ -40,6 +63,9 @@ export default function Form(props) {
       />
       <TouchableOpacity activeOpacity={0.7} onPress={handleAddTask}>
         <Icon name="circle-plus" size={40} color={color.primary} />
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity={0.7} onPress={handleDeleteCompletedTask}>
+        <Icon name="circle-minus" size={40} color={color.delete} />
       </TouchableOpacity>
     </KeyboardAvoidingView>
   );
