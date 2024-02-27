@@ -27,7 +27,6 @@ export default function Form(props) {
   }
 
   const handleDeleteCompletedTask = () => {
-    console.log(props.completedTasks.toString());
     Alert.alert(
       "Delete completed tasks!!!",
       "Are you sure to delete all completed tasks? This action cannot be undone!",
@@ -35,9 +34,9 @@ export default function Form(props) {
         {
           text: "Delete",
           onPress: () => {
-            for (let index of props.completedTasks) {
+            for (let id of props.completedTasks) {
               let taskListTemp = [...props.tasks];
-              
+              let index = taskListTemp.indexOf(id);
               taskListTemp.splice(index, 1);
               props.setTasks(taskListTemp);
             }

@@ -21,12 +21,14 @@ const Task = (props) => {
     setImportantTask(!importantTask);
   };
 
-  const handleCompletedTask = (index) => {
+  const handleCompletedTask = (id) => {
     setCompletedTask(!completedTask);
-    if (!completedTask) 
-      props.completedTasks?.push(index);
-    else
+    if (!completedTask) {
+      props.completedTasks?.push(id);
+    } else {
+      let index = props.completedTasks?.indexOf(id); 
       props.completedTasks?.splice(index, 1);
+    }
     console.log(`${completedTask}, ${props.completedTasks.length}`);
     console.log(props.completedTasks.toString());
   };

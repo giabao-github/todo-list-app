@@ -11,18 +11,17 @@ export default function todoList() {
   const completedTasks = [];
 
   const handleAddTask = (task) => {
-    task = task.trim().replace(/\s+/g, ' ');
-    setTaskList([...taskList, task]);
+    setTaskList([...taskList, task.trim().replace(/\s+/g, ' ')]);
   }
 
   const handleSave = (index, newTitle) => {
-    newTitle = newTitle.trim().replace(/\s+/g, ' ');
-    if (newTitle.length === 0) {
+    let newTitleTrim = newTitle.trim().replace(/\s+/g, ' ');
+    if (newTitleTrim.length === 0) {
       return false;
     }
     else {
       let taskListTemp = [...taskList];
-      taskListTemp[index] = newTitle;
+      taskListTemp[index] = newTitleTrim;
       setTaskList(taskListTemp);
     }
   };
@@ -41,7 +40,7 @@ export default function todoList() {
           }
         </ScrollView>
       </View>
-      {isFormVisible && <Form onAddTask={handleAddTask} completedTasks={completedTasks} />}
+      {isFormVisible && <Form onAddTask={handleAddTask} tasks={taskList} setTasks={setTaskList} completedTasks={completedTasks} />}
     </View>
   );
 }
