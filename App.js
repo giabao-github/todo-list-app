@@ -8,11 +8,7 @@ export default function todoList() {
   const [taskList, setTaskList] = useState([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(true);
-  const completedTasks = [];
-
-  const handleAddTask = (task) => {
-    setTaskList([...taskList, task.trim().replace(/\s+/g, ' ')]);
-  }
+  const [completedTasks, setCompletedTasks] = useState([]);
 
   const handleSave = (index, newTitle) => {
     let newTitleTrim = newTitle.trim().replace(/\s+/g, ' ');
@@ -40,7 +36,7 @@ export default function todoList() {
           }
         </ScrollView>
       </View>
-      {isFormVisible && <Form onAddTask={handleAddTask} tasks={taskList} setTasks={setTaskList} completedTasks={completedTasks} />}
+      {isFormVisible && <Form tasks={taskList} setTasks={setTaskList} completedTasks={completedTasks} />}
     </View>
   );
 }

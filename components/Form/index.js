@@ -21,9 +21,10 @@ export default function Form(props) {
       );
       return false;
     }
-    props.onAddTask(task);
+    props.setTasks([...props.tasks, task.trim().replace(/\s+/g, ' ')]);
     setTask('');
     Keyboard.dismiss();
+    console.log(`completedTasks: ${props.completedTasks.length}`);
   }
 
   const handleDeleteCompletedTask = () => {
@@ -34,12 +35,9 @@ export default function Form(props) {
         {
           text: "Delete",
           onPress: () => {
-            for (let id of props.completedTasks) {
-              let taskListTemp = [...props.tasks];
-              let index = taskListTemp.indexOf(id);
-              taskListTemp.splice(index, 1);
-              props.setTasks(taskListTemp);
-            }
+            let taskListTemp = [...props.tasks];
+            let remainingTasks = taskListTemp.filter((task, index) => !props.completedTasks.includes(index));
+            props.setTasks(remainingTasks);
           },
         },
         { text: "Cancel", onPress: () => {} }

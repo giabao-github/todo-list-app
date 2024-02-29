@@ -29,8 +29,7 @@ const Task = (props) => {
       let index = props.completedTasks?.indexOf(id); 
       props.completedTasks?.splice(index, 1);
     }
-    console.log(`${completedTask}, ${props.completedTasks.length}`);
-    console.log(props.completedTasks.toString());
+    console.log(`completedTasks: ${props.completedTasks}`);
   };
 
   const handleEdit = () => {
@@ -105,7 +104,7 @@ const Task = (props) => {
     </View>
   );
 
-  const Item = ({ number, task }) => (
+  const Item = ({ id, number, task }) => (
     <TouchableOpacity
       activeOpacity={1}
       style={styles.item}
@@ -120,7 +119,7 @@ const Task = (props) => {
       <TouchableOpacity
         activeOpacity={1}
         style={styles.task}
-        onPress={handleCompletedTask}
+        onPress={() => handleCompletedTask(id)}
       >
         <Text style={[styles.task, taskCompleted]}>{task}</Text>
       </TouchableOpacity>
@@ -180,7 +179,7 @@ const Task = (props) => {
             </View>
           </View>
         </Modal>
-        <Item number={numberString} task={props.task} />
+        <Item id={props.index} number={numberString} task={props.task} />
       </Swipeable>
     </GestureHandlerRootView>
   );
