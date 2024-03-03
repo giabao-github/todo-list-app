@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   completedTask: {
     textDecorationLine: 'line-through',
-    opacity: 0.5,
+    opacity: 0.4,
   },
   centeredView: {
     flex: 1,

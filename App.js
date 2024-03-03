@@ -11,15 +11,17 @@ export default function todoList() {
   const [completedTasks, setCompletedTasks] = useState([]);
 
   const handleSave = (index, newTitle) => {
-    let newTitleTrim = newTitle.trim().replace(/\s+/g, ' ');
+    const newTitleTrim = newTitle.trim().replace(/\s+/g, ' ');
     if (newTitleTrim.length === 0) {
       return false;
     }
-    else {
-      let taskListTemp = [...taskList];
-      taskListTemp[index] = newTitleTrim;
-      setTaskList(taskListTemp);
-    }
+    setTaskList(prev => prev.map((task, i) => i === index ? {...task, content: newTitleTrim, completed: false} : task));
+    // else {
+    //   let taskListTemp = [...taskList];
+    //   taskListTemp[index].content = newTitleTrim;
+    //   taskListTemp[index].completed = false;
+    //   setTaskList(taskListTemp);
+    // }
   };
 
   return (
@@ -30,7 +32,7 @@ export default function todoList() {
           {
             taskList.map((item, index) => {
               return (
-                <Task key={index} number={index+1} task={item} tasks={taskList} setTasks={setTaskList} newTaskTitle={newTaskTitle} setNewTaskTitle={setNewTaskTitle} handleSave={handleSave} index={index} setIsFormVisible={setIsFormVisible} completedTasks={completedTasks} />
+                <Task key={index} index={index} number={index+1} taskContent={item.content} taskStatus={item.completed} tasks={taskList} setTasks={setTaskList} newTaskTitle={newTaskTitle} setNewTaskTitle={setNewTaskTitle} handleSave={handleSave} setIsFormVisible={setIsFormVisible} completedTasks={completedTasks} />
               );
             })
           }

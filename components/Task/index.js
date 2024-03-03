@@ -1,4 +1,4 @@
-import { React, useState, useRef } from 'react';
+import { React, useState, useRef, useEffect } from 'react';
 import { Alert, Text, TextInput, TouchableOpacity, Modal, Button, View, I18nManager, Animated, Keyboard } from 'react-native';
 import styles from './style';
 import color from '../../contains/color';
@@ -14,8 +14,8 @@ const Task = (props) => {
   const { number } = props;
   const numberString = number < 10 ? `0${number}` : number;
   const taskBackground = importantTask ? styles.important : styles.normal;
-  const taskCompleted = completedTask ? styles.completedTask : '';
   const swipeableRef = useRef(null);
+  let taskCompleted = props.taskStatus ? styles.completedTask : '';
 
   const handleTaskPress = () => {
     setImportantTask(!importantTask);
@@ -29,7 +29,6 @@ const Task = (props) => {
       let index = props.completedTasks?.indexOf(id); 
       props.completedTasks?.splice(index, 1);
     }
-    console.log(`completedTasks: ${props.completedTasks}`);
   };
 
   const handleEdit = () => {
@@ -104,7 +103,7 @@ const Task = (props) => {
     </View>
   );
 
-  const Item = ({ id, number, task }) => (
+  const Item = ({ id, number, taskContent, taskStatus, setTasks }) => (
     <TouchableOpacity
       activeOpacity={1}
       style={styles.item}
@@ -119,9 +118,12 @@ const Task = (props) => {
       <TouchableOpacity
         activeOpacity={1}
         style={styles.task}
-        onPress={() => handleCompletedTask(id)}
+        onPress={() => {
+          setTasks(prev => prev.map((task, i) => i === id ? {...task, content: taskContent, completed: !taskStatus } : task));
+          handleCompletedTask(id);
+        }}
       >
-        <Text style={[styles.task, taskCompleted]}>{task}</Text>
+        <Text style={[styles.task, taskCompleted]}>{taskContent}</Text>
       </TouchableOpacity>
     </TouchableOpacity>
   );
@@ -179,7 +181,7 @@ const Task = (props) => {
             </View>
           </View>
         </Modal>
-        <Item id={props.index} number={numberString} task={props.task} />
+        <Item id={props.index} number={numberString} taskContent={props.taskContent} taskStatus={props.taskStatus} setTasks={props.setTasks} />
       </Swipeable>
     </GestureHandlerRootView>
   );
