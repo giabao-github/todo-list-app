@@ -4,7 +4,7 @@ import color from '../../contains/color';
 const styles = StyleSheet.create({
   addTask: {
     bottom: 30,
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 44,
-    width: '72%',
+    width: '70%',
     backgroundColor: color.white,
     borderWidth: 1,
     borderColor: color.primary,

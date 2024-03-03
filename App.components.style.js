@@ -20,6 +20,16 @@ const styles = StyleSheet.create({
   items: {
     marginTop: 25,
   },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+  },
+  empty: {
+    opacity: 0.4,
+    fontSize: 20,
+  }
 });
 
 export default styles;

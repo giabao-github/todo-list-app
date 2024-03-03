@@ -90,8 +90,8 @@ const Task = (props) => {
     );
   };
 
-  let editButton = <Icon name="pen" size={20} color={color.white} />;
-  let deleteButton = <Icon name="trash" size={20} color={color.white} />
+  let editButton = <Icon name="pen-to-square" size={20} color={color.white} />;
+  let deleteButton = <Icon name="trash-can" size={20} color={color.white} />
   renderRightActions = progress => (
     <View style={{ width: 136, flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row' }}>
       <TouchableOpacity onPress={handleEdit}>

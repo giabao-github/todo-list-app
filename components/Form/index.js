@@ -26,23 +26,44 @@ export default function Form(props) {
     Keyboard.dismiss();
   }
 
-  const handleDeleteCompletedTask = () => {
-    Alert.alert(
-      "Delete completed tasks!!!",
-      "Are you sure to delete all completed tasks? This action cannot be undone!",
-      [
-        {
-          text: "Delete",
-          onPress: () => {
-            let taskListTemp = [...props.tasks];
-            let remainingTasks = taskListTemp.filter((task, index) => !props.completedTasks.includes(index));
-            props.setTasks(remainingTasks);
-            props.completedTasks.splice(0, props.completedTasks.length);
+  const handleDeleteCompletedTasks = () => {
+    if (props.completedTasks.length > 0) {
+      Alert.alert(
+        "Delete completed tasks!!!",
+        "Are you sure to delete all completed tasks? This action cannot be undone!",
+        [
+          {
+            text: "Delete",
+            onPress: () => {
+              let taskListTemp = [...props.tasks];
+              let remainingTasks = taskListTemp.filter((task, index) => !props.completedTasks.includes(index));
+              props.setTasks(remainingTasks);
+              props.completedTasks.splice(0, props.completedTasks.length);
+            },
           },
-        },
-        { text: "Cancel", onPress: () => {} }
-      ]
-    );
+          { text: "Cancel", onPress: () => {} }
+        ]
+      );
+    }
+  }
+
+  const handleDeleteAllTasks = () => {
+    if (props.tasks.length > 0) {
+      Alert.alert(
+        "Delete all tasks!!!",
+        "Are you sure to delete all tasks? This action cannot be undone!",
+        [
+          {
+            text: "Delete",
+            onPress: () => {
+              props.setTasks([]);
+              props.completedTasks.splice(0, props.completedTasks.length);
+            },
+          },
+          { text: "Cancel", onPress: () => {} }
+        ]
+      );
+    }
   }
 
   return (
@@ -58,11 +79,14 @@ export default function Form(props) {
         placeholder='Add task...'
         onChangeText={text => setTask({content: text})}
       />
-      <TouchableOpacity activeOpacity={0.7} onPress={handleAddTask}>
-        <Icon name="circle-plus" size={40} color={color.primary} />
+      <TouchableOpacity activeOpacity={0.7} onPress={handleAddTask} style={{ marginLeft: 8 }}>
+        <Icon name="file-circle-plus" size={28} color={color.primary} />
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.7} onPress={handleDeleteCompletedTask}>
-        <Icon name="circle-minus" size={40} color={color.delete} />
+      <TouchableOpacity activeOpacity={0.7} onPress={handleDeleteCompletedTasks} style={{ marginHorizontal: 8 }}>
+        <Icon name="file-circle-minus" size={28} color={color.delete} />
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity={0.7} onPress={handleDeleteAllTasks}>
+        <Icon name="trash" size={28} color={color.delete} />
       </TouchableOpacity>
     </KeyboardAvoidingView>
   );
